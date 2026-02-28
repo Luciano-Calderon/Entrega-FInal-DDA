@@ -125,3 +125,50 @@ void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 	return;
 }
 /* ########## Dinámico ##########*/
+void DynamicProgramming(int n, int T, int* time, int* score, int* mejor_seleccion){
+	//Se crea matríz DP, de tamaño (n+1)x(T+1)
+	int** DP = (int**)malloc((n+1)*sizeof(int*)); //n+1 filas
+	for (int i=0;i<=(n);i++){
+		DP[i] = (int*)malloc((T+1)*sizeof(int)); //Cada fila tendrá (T+1) columnas
+		for (int j=0;j<=(T);j++){
+			DP[i][j] = 0; //Inicializando cada elemento de la Matríz en 0
+		}
+	}
+	//Estudiar cada tarea
+	for (int i=1;i<=n;i++){
+		for(int j=0;j<=T;j++){
+			DP[i][j] = DP[i-1][j]; //Clonando valor acumulado de la fila anterior
+			//Evaluar uso de tarea i
+			if (time[i-1] <= j){ //si el tiempo en revisión corresponde al nivel de la columna revisada (las columnas representan niveles de tiempo usado)
+				int elemento = DP[i-1][j-time[i-1]] + score[i-1]; //Valor entre acumulador anterior y puntaje en revisión
+				if (elemento > DP[i][j]){ //Si el puntaje acumulado resulta mayor.
+					DP[i][j] = elemento; //actualizamos casilla
+					}
+				}
+		}
+	}
+	printf("El puntaje maximizado por DP es: %d \n", DP[n][T]);
+	for (int i=0;i<n;i++){
+		mejor_seleccion[i] = -1; //Inicializando el arreglo de selección, consecuentemente el arreglo guardará las tareas que generan el mejor puntaje
+	}
+	int j = T, k = -1;
+	for(int i=n; i>=1; i--){
+		if (DP[i][j] != DP[i-1][j]){//Si valor de [i][j] es distinto a [i-1][j], es porque se agrego la tarea de la fila i al puntaje
+			k+=1;
+			mejor_seleccion[k] = i;
+			j = j - time[i-1];
+			}
+		}
+	printf("Las tareas seleccionadas por DP fueron: \n");
+	for(int i=0;i<n;i++){
+		if (mejor_seleccion[i] != -1){
+			printf("%d \n", mejor_seleccion[i]);
+			}
+		}
+	printf("Fin de Algoritmo de Programación Dinámica. \n");
+	for(int i=0;i<=n;i++){ //bucle que va de 0 a n, para el arreglo DP que contiene n+1 filas
+		free(DP[i]); //se liberan filas de DP
+		}
+	free(DP);//Se libera el arreglo global de DP
+	return;
+	}
