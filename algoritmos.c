@@ -51,9 +51,6 @@ int maximizar_puntaje_backtracking(int n, int T, int t[], int p[], int mejor_sel
 }
 
 /* ########## Goloso ##########*/
-#include <stdio.h>
-#include <stdlib.h>
-
 //El Algoritmo Goloso
 void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 	
