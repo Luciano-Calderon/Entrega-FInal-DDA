@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Variable global para contar iteraciones (celdas de la matriz DP)
-long long iteraciones_dp = 0;
+long long iteraciones_bt = 0;      // No se usará
+long long iteraciones_goloso = 0;  // No se usará
+long long iteraciones_dp = 0;      // Esta es la que importa aquí
 
-// Se incluye el archivo de algoritmos segun el enunciado [cite: 55]
 #include "algoritmos.c"
 
 void ejecutar_test_dinamico(int id_caso, int n, int T, int t[], int p[]) {
@@ -62,3 +62,12 @@ int main() {
 
     return 0;
 }
+
+/*
+
+Nota: Para ejecutar en consola, utilizar: 
+
+gcc -Wall test_dinamico.c -o test_dinamico
+./test_dinamico
+
+*/

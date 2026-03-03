@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Variable global para contar las llamadas recursivas (iteraciones)
-long long iteraciones_bt = 0;
+long long iteraciones_bt = 0;      // Esta es la que importa aquí
+long long iteraciones_goloso = 0;  // No se usará
+long long iteraciones_dp = 0;      // No se usará
 
-// Incluimos tu archivo de algoritmos tal como lo pide el PDF
-#include "algoritmos.c" 
+#include "algoritmos.c"
 
 // Función auxiliar para imprimir y evaluar cada caso de prueba de forma ordenada
 void ejecutar_test_backtracking(int id_caso, int n, int T, int t[], int p[]) {
@@ -17,18 +17,12 @@ void ejecutar_test_backtracking(int id_caso, int n, int T, int t[], int p[]) {
     int* mejor_seleccion = (int*)malloc(n * sizeof(int));
     iteraciones_bt = 0; // Reiniciamos el contador para este caso
     
-    // --- INICIO DE MEDICIÓN DE TIEMPO ---
     clock_t inicio = clock();
-    
     int puntaje_maximo = maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
-    
     clock_t fin = clock();
-    // --- FIN DE MEDICIÓN DE TIEMPO ---
 
-    // Calculamos el tiempo en segundos
     double tiempo_total = (double)(fin - inicio) / CLOCKS_PER_SEC;
 
-    // Mostrar los resultados exigidos por la pauta
     printf("-> Puntaje Maximo Encontrado: %d\n", puntaje_maximo);
     
     printf("-> Temas Seleccionados (Indices 0 a %d): ", n-1);
@@ -85,3 +79,12 @@ int main() {
 
     return 0;
 }
+
+/*
+
+Nota: Para ejecutar en consola, utilizar: 
+
+gcc -Wall test_backtracking.c -o test_backtracking
+./test_backtracking
+
+*/

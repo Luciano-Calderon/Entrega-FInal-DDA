@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Variable global para contar iteraciones (ciclos en Bubble Sort y seleccion)
-long long iteraciones_goloso = 0;
+long long iteraciones_bt = 0;      // No se usará
+long long iteraciones_goloso = 0;  // Esta es la que importa aquí
+long long iteraciones_dp = 0;      // No se usará
 
-// Se incluye el archivo de algoritmos segun el enunciado 
 #include "algoritmos.c"
 
 void ejecutar_test_goloso(int id_caso, int n, int T, int t[], int p[]) {
@@ -62,3 +62,12 @@ int main() {
 
     return 0;
 }
+
+/*
+
+Nota: Para ejecutar en consola, utilizar: 
+
+gcc -Wall test_goloso.c -o test_goloso
+./test_goloso
+
+*/

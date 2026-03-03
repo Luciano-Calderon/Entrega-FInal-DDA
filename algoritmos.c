@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+extern long long iteraciones_bt;
+extern long long iteraciones_goloso;
+extern long long iteraciones_dp;
+
 /* ########## Backtracking ########## */
 
 void backtracking(int k, int n, int T, int t[], int p[], int T_actual, int p_actual, int* p_max, int seleccion_actual[], int mejor_seleccion[]){
+	iteraciones_bt++;
+
     //poda al pasarse del tiempo
     if(T_actual > T){
         return;
@@ -73,6 +79,8 @@ void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 		int i2 = i+1;
 		int sorted = 0; //En esta variable, 0 significa "falso" y 1 significa "verdadero"
 		while (i2 < n){
+			iteraciones_goloso++;
+
 			if (razon_tareas[i] < razon_tareas[i2]){ //si la razón de una tarea es menor que la razón de una tarea sucesora, cambiamos las posiciones.
 				int temp1;
 				double temp2, temp3, temp4;
@@ -104,6 +112,8 @@ void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 		}
 	int TiempoTotal=0, PuntajeTotal=0, k=-1;
 	for (int j=0;j<n;j++){
+		iteraciones_goloso++;
+
 		if (TiempoTotal + clon_tiempo[j] <= T){ //Si el tiempo acumulado no supera al tiempo máximo T, entonces aumentamos tiempo y puntaje acumulado, así como seleccionamos una tarea
 			TiempoTotal+=clon_tiempo[j];
 			PuntajeTotal+=clon_puntaje[j];
@@ -115,9 +125,10 @@ void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 	printf("Las tareas seleccionadas fueron: \n");
 	for (int k=0;k<n;k++){
 		if (mejor_seleccion[k] != -1){
-			printf("%d \n", mejor_seleccion[k]);
+			printf("%d ", mejor_seleccion[k]);
 			}
 		}
+		printf("\n");
 	printf("Fin de Algoritmo Goloso \n");
 	free(tareas);
 	free(razon_tareas);
@@ -140,6 +151,8 @@ void DynamicProgramming(int n, int T, int* time, int* score, int* mejor_seleccio
 	//Estudiar cada tarea
 	for (int i=1;i<=n;i++){
 		for(int j=0;j<=T;j++){
+			iteraciones_dp++;
+
 			DP[i][j] = DP[i-1][j]; //Clonando valor acumulado de la fila anterior
 			//Evaluar uso de tarea i
 			if (time[i-1] <= j){ //si el tiempo en revisión corresponde al nivel de la columna revisada (las columnas representan niveles de tiempo usado)
@@ -165,9 +178,10 @@ void DynamicProgramming(int n, int T, int* time, int* score, int* mejor_seleccio
 	printf("Las tareas seleccionadas por DP fueron: \n");
 	for(int i=0;i<n;i++){
 		if (mejor_seleccion[i] != -1){
-			printf("%d \n", mejor_seleccion[i]);
+			printf("%d ", mejor_seleccion[i]);
 			}
 		}
+		printf("\n");
 	printf("Fin de Algoritmo de Programación Dinámica. \n");
 	for(int i=0;i<=n;i++){ //bucle que va de 0 a n, para el arreglo DP que contiene n+1 filas
 		free(DP[i]); //se liberan filas de DP
