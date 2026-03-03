@@ -15,28 +15,48 @@ void ejecutar_test_backtracking(int id_caso, int n, int T, int t[], int p[]) {
     printf("==================================================\n");
 
     int* mejor_seleccion = (int*)malloc(n * sizeof(int));
-    iteraciones_bt = 0; // Reiniciamos el contador para este caso
+    iteraciones_bt = 0; 
     
-    clock_t inicio = clock();
+    // 1. Primera ejecución para obtener resultados y contar iteraciones real
     int puntaje_maximo = maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
-    clock_t fin = clock();
+    long long iteraciones_totales = iteraciones_bt;
 
-    double tiempo_total = (double)(fin - inicio) / CLOCKS_PER_SEC;
-
-    printf("-> Puntaje Maximo Encontrado: %d\n", puntaje_maximo);
+    // 2. Medición de tiempo condicional
+    double tiempo_final;
     
-    printf("-> Temas Seleccionados (Indices 0 a %d): ", n-1);
+    if (n < 30) {
+        // Para n pequeño, promediamos para mayor precisión
+        int REPS = 100; // Puedes subirlo a 1000 si n es muy pequeño (ej. n=5)
+        clock_t inicio = clock();
+        for (int i = 0; i < REPS; i++) {
+            maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
+        }
+        clock_t fin = clock();
+        tiempo_final = ((double)(fin - inicio) / CLOCKS_PER_SEC) / REPS;
+        printf("-> (Tiempo promedio de %d ejecuciones)\n", REPS);
+    } else {
+        // Para n >= 30, medimos una sola vez porque ya es lento
+        clock_t inicio = clock();
+        maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
+        clock_t fin = clock();
+        tiempo_final = (double)(fin - inicio) / CLOCKS_PER_SEC;
+        printf("-> (Tiempo de ejecucion unica)\n");
+    }
+
+    // --- IMPRESIÓN DE RESULTADOS ---
+    printf("-> Puntaje Maximo Encontrado: %d\n", puntaje_maximo);
+    printf("-> Temas Seleccionados (Indices): ");
     int tiempo_ocupado = 0;
     for(int i = 0; i < n; i++) {
         if(mejor_seleccion[i] == 1) {
             printf("%d ", i);
-            tiempo_ocupado += t[i]; // Sumamos el tiempo real utilizado
+            tiempo_ocupado += t[i];
         }
     }
     printf("\n");
     printf("-> Tiempo total utilizado: %d / %d\n", tiempo_ocupado, T);
-    printf("-> Numero de iteraciones (Llamadas recursivas): %lld\n", iteraciones_bt);
-    printf("-> Tiempo de ejecucion: %f segundos\n\n", tiempo_total);
+    printf("-> Numero de iteraciones: %lld\n", iteraciones_totales);
+    printf("-> Tiempo de ejecucion: %.10f segundos\n\n", tiempo_final);
     
     free(mejor_seleccion);
 }

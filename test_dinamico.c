@@ -14,16 +14,30 @@ void ejecutar_test_dinamico(int id_caso, int n, int T, int t[], int p[]) {
     printf("==================================================\n");
 
     int* mejor_seleccion = (int*)malloc(n * sizeof(int));
-    iteraciones_dp = 0; 
+    
+    // 1. Ejecución única para mostrar resultados y contar iteraciones
+    iteraciones_dp = 0;
+    int puntaje = DynamicProgramming(n, T, t, p, mejor_seleccion);
+    
+    printf("-> Puntaje Maximo (DP): %d\n", puntaje);
+    printf("-> Tareas: ");
+    for(int i=0; i<n; i++) {
+        if(mejor_seleccion[i] != -1) printf("%d ", mejor_seleccion[i]);
+    }
+    printf("\n");
 
+    // 2. Bucle para tiempo promedio (DP es rápido, pero no tanto como Greedy)
+    const int REPS = 5000; // Ajusta según la velocidad de tu PC
     clock_t inicio = clock();
-    DynamicProgramming(n, T, t, p, mejor_seleccion);
+    for (int i = 0; i < REPS; i++) {
+        DynamicProgramming(n, T, t, p, mejor_seleccion);
+    }
     clock_t fin = clock();
 
-    double tiempo_total = (double)(fin - inicio) / CLOCKS_PER_SEC;
+    double promedio = ((double)(fin - inicio) / CLOCKS_PER_SEC) / REPS;
 
-    printf("-> Numero de iteraciones (n*T): %lld\n", iteraciones_dp);
-    printf("-> Tiempo de ejecucion: %f segundos\n\n", tiempo_total);
+    printf("-> Iteraciones (n*T): %lld\n", iteraciones_dp);
+    printf("-> Tiempo promedio: %.10f segundos\n\n", promedio);
     
     free(mejor_seleccion);
 }
