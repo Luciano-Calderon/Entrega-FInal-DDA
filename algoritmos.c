@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* ########## Backtracking ##########*/
+/* ########## Backtracking ########## */
 
 void backtracking(int k, int n, int T, int t[], int p[], int T_actual, int p_actual, int* p_max, int seleccion_actual[], int mejor_seleccion[]){
     //poda al pasarse del tiempo
@@ -50,7 +50,8 @@ int maximizar_puntaje_backtracking(int n, int T, int t[], int p[], int mejor_sel
     return p_max;
 }
 
-/* ########## Goloso ##########*/
+/* ########## Goloso ########## */
+
 //El Algoritmo Goloso
 void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 	
@@ -124,7 +125,9 @@ void Greedy(int n, int T, int tiempo[], int puntaje[], int mejor_seleccion[]){
 	free(clon_puntaje);	
 	return;
 }
+
 /* ########## Dinámico ##########*/
+
 void DynamicProgramming(int n, int T, int* time, int* score, int* mejor_seleccion){
 	//Se crea matríz DP, de tamaño (n+1)x(T+1)
 	int** DP = (int**)malloc((n+1)*sizeof(int*)); //n+1 filas
