@@ -46,10 +46,10 @@ void ejecutar_test_backtracking(int id_caso, int n, int T, int t[], int p[]) {
     }
 
     printf("-> Puntaje Maximo Encontrado: %d\n", puntaje_maximo);
-    printf("-> Temas Seleccionados (Indices): ");
+    printf("-> Temas Seleccionados: ");
     for(int i = 0; i < n; i++) {
         if(mejor_seleccion[i] == 1) {
-            printf("%d ", i);
+            printf("%d ", i+1);
         }
     }
     printf("\n");
