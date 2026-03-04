@@ -16,8 +16,7 @@ void ejecutar_test_goloso(int id_caso, int n, int T, int t[], int p[]) {
     printf("==================================================\n");
 
     int* mejor_seleccion = (int*)malloc(n * sizeof(int));
-    
-    // 1. Ejecución única para mostrar resultados
+
     iteraciones_goloso = 0;
     int puntaje = Greedy(n, T, t, p, mejor_seleccion);
     
@@ -28,8 +27,6 @@ void ejecutar_test_goloso(int id_caso, int n, int T, int t[], int p[]) {
     }
     printf("\n");
 
-    // 2. Medición de tiempo promedio (Sin impresiones estorbando)
-    // Usamos 100.000 si 10.000 sigue dando muy poco tiempo
     const int REPS = 100000; 
     clock_t inicio = clock();
     for (int i = 0; i < REPS; i++) {
@@ -39,7 +36,7 @@ void ejecutar_test_goloso(int id_caso, int n, int T, int t[], int p[]) {
 
     double promedio = ((double)(fin - inicio) / CLOCKS_PER_SEC) / REPS;
 
-    printf("-> Iteraciones: %lld\n", iteraciones_goloso); // El total de la primera ejecución
+    printf("-> Iteraciones: %lld\n", iteraciones_goloso);
     printf("-> Tiempo promedio: %.10f segundos\n\n", promedio);
     
     free(mejor_seleccion);
