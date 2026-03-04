@@ -16,26 +16,33 @@ void ejecutar_test_backtracking(int id_caso, int n, int T, int t[], int p[]) {
     int* mejor_seleccion = (int*)malloc(n * sizeof(int));
     iteraciones_bt = 0; 
 
-    int puntaje_maximo = maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
-    long long iteraciones_totales = iteraciones_bt;
-
     double tiempo_final;
-    
+    int puntaje_maximo;
+    long long iteraciones_totales;
+
     if (n < 20) {
-        int REPS = 9000;
+        // Mantenemos el promedio para n pequeño
+        int REPS = 1000; // Un número razonable para n < 20
         clock_t inicio = clock();
         for (int i = 0; i < REPS; i++) {
-            maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
+            iteraciones_bt = 0; // Reiniciar en cada vuelta si quieres el promedio de iteraciones
+            puntaje_maximo = maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
         }
         clock_t fin = clock();
         tiempo_final = ((double)(fin - inicio) / CLOCKS_PER_SEC) / REPS;
-        printf("-> (Tiempo promedio de %d ejecuciones)\n", REPS);
-    } else {
+        iteraciones_totales = iteraciones_bt; // Queda con el valor de la última ejecución
+        printf("-> (Calculado con promedio de %d ejecuciones)\n", REPS);
+    } 
+    else {
+        // PARA n >= 20: EJECUTAMOS UNA SOLA VEZ Y CRONOMETRAMOS ESA MISMA
+        iteraciones_bt = 0;
         clock_t inicio = clock();
-        maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
+        puntaje_maximo = maximizar_puntaje_backtracking(n, T, t, p, mejor_seleccion);
         clock_t fin = clock();
+        
         tiempo_final = (double)(fin - inicio) / CLOCKS_PER_SEC;
-        printf("-> (Tiempo de ejecucion unica)\n");
+        iteraciones_totales = iteraciones_bt;
+        printf("-> (Calculado con ejecucion unica)\n");
     }
 
     printf("-> Puntaje Maximo Encontrado: %d\n", puntaje_maximo);
